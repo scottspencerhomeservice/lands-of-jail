@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lands of Jail — Community Guide & Resource Hub</title>
+  <meta name="description" content="The ultimate fan-built guide for Lands of Jail. Hero tier lists, event schedules, formation strategies, shop guides, and tips for new and experienced players.">
+  <meta property="og:title" content="Lands of Jail — Community Guide">
+  <meta property="og:description" content="Hero tier lists, events, formations, shops & tips for Lands of Jail mobile game.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Barlow:wght@300;400;500;600&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-secondary); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-primary); }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+    :root {
+      --bg-primary: #08080c;
+      --bg-secondary: #0f1023;
+      --bg-card: #141530;
+      --bg-card-hover: #1a1b40;
+      --surface: #1c1d3a;
+      --accent-primary: #e94560;
+      --accent-secondary: #f5a623;
+      --accent-tertiary: #00d4aa;
+      --accent-blue: #4a9eff;
+      --text-primary: #e8e8ec;
+      --text-secondary: #8888a0;
+      --text-muted: #55556a;
+      --border: rgba(233, 69, 96, 0.15);
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --glow-red: 0 0 30px rgba(233, 69, 96, 0.2);
+      --glow-gold: 0 0 30px rgba(245, 166, 35, 0.2);
+      --glow-teal: 0 0 30px rgba(0, 212, 170, 0.2);
+      --rarity-legendary: #ffd700;
+      --rarity-epic: #a855f7;
+      --rarity-sr: #3b82f6;
+      --rarity-rare: #22c55e;
+      --radius: 8px;
+      --radius-lg: 16px;
+      --header-h: 64px;
+    }
+
+    /* ============================================
+       NOISE OVERLAY (gritty texture)
+       ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ============================================
+       HEADER / NAVIGATION
+       ============================================ */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-h);
+      background: rgba(8, 8, 12, 0.85);
+      backdrop-filter: blur(20px) saturate(1.4);
+      -webkit-backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 4vw, 48px);
+      z-index: 1000;
+    }
+    .logo {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo span {
+      -webkit-text-fill-color: var(--text-secondary);
+      font-weight: 400;
+      font-size: 0.8em;
+      letter-spacing: 0.04em;
+    }
+    .main-nav {
+      display: flex;
+      gap: 0;
+    }
+    .main-nav a {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      transition: all 0.25s;
+      position: relative;
+    }
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--accent-primary);
+      background: rgba(233, 69, 96, 0.08);
+    }
+    .main-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 2px;
+      background: var(--accent-primary);
+      border-radius: 1px;
+    }
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      right: 0;
+      background: rgba(8, 8, 12, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+      z-index: 999;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav a {
+      display: block;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      transition: all 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--accent-primary); background: rgba(233, 69, 96, 0.08); }
+
+    @media (max-width: 768px) {
+      .main-nav { display: none; }
+      .mobile-toggle { display: block; }
+    }
+
+    /* ============================================
+       HERO BANNER
+       ============================================ */
+    .hero-banner {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--header-h) + 40px) 24px 80px;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('hero-banner.png') center/cover no-repeat;
+      filter: brightness(0.35) contrast(1.1);
+      z-index: 0;
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 8, 12, 0.5) 0%,
+        rgba(8, 8, 12, 0.2) 40%,
+        rgba(8, 8, 12, 0.7) 80%,
+        rgba(8, 8, 12, 1) 100%
+      );
+      z-index: 1;
+    }
+    .hero-banner > * { position: relative; z-index: 2; }
+    .hero-banner h1 {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-secondary) 50%, var(--accent-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      text-shadow: none;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes titleGlow {
+      from { filter: drop-shadow(0 0 20px rgba(233, 69, 96, 0.3)); }
+      to { filter: drop-shadow(0 0 40px rgba(245, 166, 35, 0.4)); }
+    }
+    .hero-banner .tagline {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-banner .credit {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .hero-banner .credit a { color: var(--accent-secondary); }
+    .banner-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .banner-stat {
+      text-align: center;
+    }
+    .banner-stat .num {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent-secondary);
+      line-height: 1;
+    }
+    .banner-stat .label {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ============================================
+       SECTION LAYOUT
+       ============================================ */
+    section {
+      scroll-margin-top: calc(var(--header-h) + 20px);
+      padding: 80px clamp(16px, 5vw, 64px);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-header h2 {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      position: relative;
+      display: inline-block;
+    }
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), transparent);
+      border-radius: 2px;
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      margin-top: 12px;
+      max-width: 600px;
+      font-size: 0.95rem;
+    }
+
+    /* Section dividers */
+    .section-divider {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ============================================
+       FILTER BAR
+       ============================================ */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      padding: 4px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-subtle);
+    }
+    .filter-group .label {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+    }
+    .filter-btn {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+    .filter-btn.active {
+      color: var(--bg-primary);
+      background: var(--accent-primary);
+    }
+    .filter-btn.active[data-rarity="legendary"] { background: var(--rarity-legendary); color: #1a1a00; }
+    .filter-btn.active[data-rarity="epic"] { background: var(--rarity-epic); }
+    .filter-btn.active[data-rarity="rare"] { background: var(--rarity-rare); color: #001a0a; }
+
+    /* ============================================
+       HERO CARDS
+       ============================================ */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .hero-card[data-rarity="legendary"]::before { background: linear-gradient(90deg, var(--rarity-legendary), rgba(255,215,0,0.3)); }
+    .hero-card[data-rarity="epic"]::before { background: linear-gradient(90deg, var(--rarity-epic), rgba(168,85,247,0.3)); }
+    .hero-card[data-rarity="rare"]::before { background: linear-gradient(90deg, var(--rarity-rare), rgba(34,197,94,0.3)); }
+    .hero-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border);
+      background: var(--bg-card-hover);
+    }
+    .hero-card[data-rarity="legendary"]:hover { box-shadow: 0 8px 32px rgba(255,215,0,0.1); }
+    .hero-card[data-rarity="epic"]:hover { box-shadow: 0 8px 32px rgba(168,85,247,0.1); }
+    .hero-card[data-rarity="rare"]:hover { box-shadow: 0 8px 32px rgba(34,197,94,0.1); }
+    .hero-card.hidden { display: none; }
+
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .hero-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+    }
+    .hero-tier {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      line-height: 1;
+      padding: 2px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-tier.s-plus { color: var(--rarity-legendary); background: rgba(255,215,0,0.1); }
+    .hero-tier.s { color: #ff9500; background: rgba(255,149,0,0.1); }
+    .hero-tier.a-plus, .hero-tier.a { color: var(--accent-tertiary); background: rgba(0,212,170,0.1); }
+    .hero-tier.b-plus, .hero-tier.b { color: var(--accent-blue); background: rgba(74,158,255,0.1); }
+    .hero-tier.c { color: var(--text-secondary); background: rgba(136,136,160,0.1); }
+    .hero-tier.d { color: var(--accent-primary); background: rgba(233,69,96,0.1); }
+    .hero-tier.new-hero { color: var(--accent-secondary); background: rgba(245,166,35,0.15); font-size: 0.9rem; }
+
+    .hero-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .hero-badge {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid;
+    }
+    .badge-rarity-legendary { color: var(--rarity-legendary); border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
+    .badge-rarity-epic { color: var(--rarity-epic); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.05); }
+    .badge-rarity-rare { color: var(--rarity-rare); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.05); }
+    .badge-class {
+      color: var(--text-secondary);
+      border-color: var(--border-subtle);
+      background: rgba(255,255,255,0.02);
+    }
+    .badge-class .icon { margin-right: 3px; }
+
+    .hero-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       EVENT TABS & CARDS
+       ============================================ */
+    .event-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 32px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-subtle);
+      width: fit-content;
+    }
+    .event-tab {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .event-tab:hover { color: var(--text-primary); }
+    .event-tab.active { color: var(--bg-primary); background: var(--accent-primary); }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .event-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .event-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border);
+      background: var(--bg-card-hover);
+    }
+    .event-card.hidden { display: none; }
+    .event-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .event-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+    .event-duration {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(233, 69, 96, 0.1);
+      color: var(--accent-primary);
+      border: 1px solid rgba(233, 69, 96, 0.2);
+      white-space: nowrap;
+    }
+    .event-frequency {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-tertiary);
+      margin-bottom: 8px;
+    }
+    .event-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .event-rewards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .reward-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(245, 166, 35, 0.08);
+      color: var(--accent-secondary);
+      border: 1px solid rgba(245, 166, 35, 0.15);
+    }
+
+    /* ============================================
+       FORMATION CARDS
+       ============================================ */
+    .formation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .formation-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: all 0.3s;
+    }
+    .formation-card:hover {
+      border-color: var(--border);
+      background: var(--bg-card-hover);
+    }
+    .formation-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 4px;
+    }
+    .formation-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .formation-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .formation-row-label {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+      margin-top: 4px;
+    }
+    .formation-slot {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      text-align: center;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .formation-slot:hover {
+      border-color: var(--accent-primary);
+      background: rgba(233, 69, 96, 0.05);
+    }
+    .formation-slot .role {
+      font-size: 0.6rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+    .formation-slot.tank { border-left: 3px solid var(--accent-primary); }
+    .formation-slot.dps { border-left: 3px solid var(--accent-secondary); }
+    .formation-slot.support { border-left: 3px solid var(--accent-tertiary); }
+    .formation-slot.flex-pick { border-left: 3px solid var(--accent-blue); }
+    .formation-slot.wide { grid-column: 1 / -1; }
+    .formation-notes {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ============================================
+       SHOP CARDS
+       ============================================ */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .shop-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .shop-card:hover {
+      border-color: var(--border);
+      background: var(--bg-card-hover);
+    }
+    .shop-card.recommended {
+      border-color: rgba(0, 212, 170, 0.3);
+    }
+    .shop-card.recommended::before {
+      content: 'BEST VALUE';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(0, 212, 170, 0.15);
+      color: var(--accent-tertiary);
+      border: 1px solid rgba(0, 212, 170, 0.25);
+    }
+    .shop-card.avoid {
+      border-color: rgba(233, 69, 96, 0.2);
+      opacity: 0.7;
+    }
+    .shop-card.avoid::before {
+      content: 'LOW VALUE';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(233, 69, 96, 0.1);
+      color: var(--accent-primary);
+      border: 1px solid rgba(233, 69, 96, 0.2);
+    }
+    .shop-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .shop-type {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-secondary);
+      margin-bottom: 10px;
+    }
+    .shop-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .shop-value {
+      font-family: 'Teko', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-tertiary);
+      line-height: 1;
+    }
+    .shop-value span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+    }
+
+    /* ============================================
+       TIPS ACCORDION
+       ============================================ */
+    .tips-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 900px;
+    }
+    .tip-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .tip-item:hover { border-color: var(--border); }
+    .tip-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+      user-select: none;
+    }
+    .tip-header:hover { background: rgba(255,255,255,0.02); }
+    .tip-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-subtle);
+    }
+    .tip-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      flex-grow: 1;
+    }
+    .tip-toggle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .tip-item.open .tip-toggle { transform: rotate(180deg); }
+    .tip-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tip-item.open .tip-content { max-height: 800px; }
+    .tip-body {
+      padding: 0 24px 20px 76px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .tip-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .tip-body li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+    }
+    .tip-body li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+    }
+    .tip-body strong { color: var(--text-primary); }
+
+    /* ============================================
+       YOUTUBE SECTION
+       ============================================ */
+    .yt-section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-top: 40px;
+      text-align: center;
+    }
+    .yt-section h3 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .yt-section p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .yt-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .yt-link {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      background: rgba(233, 69, 96, 0.08);
+      color: var(--accent-primary);
+      border: 1px solid rgba(233, 69, 96, 0.15);
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+    .yt-link:hover {
+      background: rgba(233, 69, 96, 0.15);
+      color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================
+       BACK TO TOP
+       ============================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(233, 69, 96, 0.3);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      background: #ff5577;
+      transform: translateY(-2px);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 48px clamp(16px, 5vw, 64px);
+      text-align: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      font-family: 'Teko', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .footer-disclaimer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .footer-links a {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .hero-banner { min-height: 60vh; }
+      .banner-stats { gap: 24px; }
+      .filter-bar { flex-direction: column; }
+      .event-tabs { width: 100%; }
+      .event-tab { flex: 1; text-align: center; font-size: 0.7rem; padding: 10px 12px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .event-grid { grid-template-columns: 1fr; }
+      .formation-grid { grid-template-columns: 1fr; }
+      .shop-grid { grid-template-columns: 1fr; }
+      .tip-body { padding-left: 24px; }
+      .yt-links { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      section { padding: 60px 16px; }
+      .filter-group { flex-wrap: wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       HEADER
+       ============================================ -->
+  <header class="site-header">
+    <div class="logo">LANDS OF JAIL <span>// GUIDE</span></div>
+    <nav class="main-nav">
+      <a href="#heroes">Heroes</a>
+      <a href="#events">Events</a>
+      <a href="#formations">Formations</a>
+      <a href="#shops">Shops & Packs</a>
+      <a href="#tips">Tips & Tricks</a>
+    </nav>
+    <button class="mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle menu">&#9776;</button>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#heroes" onclick="closeMobileNav()">Heroes</a>
+    <a href="#events" onclick="closeMobileNav()">Events</a>
+    <a href="#formations" onclick="closeMobileNav()">Formations</a>
+    <a href="#shops" onclick="closeMobileNav()">Shops & Packs</a>
+    <a href="#tips" onclick="closeMobileNav()">Tips & Tricks</a>
+  </nav>
+
+  <!-- ============================================
+       HERO BANNER
+       ============================================ -->
+  <section class="hero-banner" id="top">
+    <h1>Lands of Jail</h1>
+    <p class="tagline">Community Guide &amp; Resource Hub</p>
+    <p class="credit">Content sourced from community research &amp; <a href="https://www.youtube.com/@Allbuzha" target="_blank" rel="noopener">Allbuzha Gaming</a></p>
+    <div class="banner-stats">
+      <div class="banner-stat">
+        <div class="num">27+</div>
+        <div class="label">Heroes</div>
+      </div>
+      <div class="banner-stat">
+        <div class="num">8+</div>
+        <div class="label">Events</div>
+      </div>
+      <div class="banner-stat">
+        <div class="num">4</div>
+        <div class="label">Formations</div>
+      </div>
+      <div class="banner-stat">
+        <div class="num">6</div>
+        <div class="label">Shop Guides</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       HEROES
+       ============================================ -->
+  <div class="section-divider"></div>
+  <section id="heroes">
+    <div class="section-header">
+      <h2>Heroes</h2>
+      <p>Every known hero ranked by tier. Filter by class, rarity, or tier to find your next investment.</p>
+    </div>
+    <div class="filter-bar" id="heroFilters"></div>
+    <div class="hero-grid" id="heroGrid"></div>
+
+    <div class="yt-section">
+      <h3>Video Guides from Allbuzha Gaming</h3>
+      <p>Deep-dive hero breakdowns and tier list analysis</p>
+      <div class="yt-links">
+        <a class="yt-link" href="https://www.youtube.com/watch?v=5nUGkfeo8Ow" target="_blank" rel="noopener">Season 3 Hero Breakdown</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=cIWslBZuW8c" target="_blank" rel="noopener">Season 4 Hero Breakdown</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=lPoRx6MPm6Q" target="_blank" rel="noopener">Ultimate Beginner's Guide</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       EVENTS
+       ============================================ -->
+  <div class="section-divider"></div>
+  <section id="events">
+    <div class="section-header">
+      <h2>Events</h2>
+      <p>All recurring, PvP, and seasonal events with rewards and strategies.</p>
+    </div>
+    <div class="event-tabs" id="eventTabs"></div>
+    <div class="event-grid" id="eventGrid"></div>
+
+    <div class="yt-section">
+      <h3>Event Guides by Allbuzha</h3>
+      <p>Detailed event walkthroughs and optimal strategies</p>
+      <div class="yt-links">
+        <a class="yt-link" href="https://www.youtube.com/watch?v=R9n4ZOtw6pU" target="_blank" rel="noopener">Full Event Guide</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=BptnX58AKcE" target="_blank" rel="noopener">Gold Hunter Strategy</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=Lw8uc2zN-1s" target="_blank" rel="noopener">Gold Hunter for Beginners</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FORMATIONS
+       ============================================ -->
+  <div class="section-divider"></div>
+  <section id="formations">
+    <div class="section-header">
+      <h2>Formations</h2>
+      <p>Proven team compositions for every game mode. Tanks front, DPS behind, synergy above all.</p>
+    </div>
+    <div class="formation-grid" id="formationGrid"></div>
+  </section>
+
+  <!-- ============================================
+       SHOPS & PACKS
+       ============================================ -->
+  <div class="section-divider"></div>
+  <section id="shops">
+    <div class="section-header">
+      <h2>Shops &amp; Packs</h2>
+      <p>Know where your Gold Cuffs and cash get the most value. F2P and spending strategies included.</p>
+    </div>
+    <div class="shop-grid" id="shopGrid"></div>
+  </section>
+
+  <!-- ============================================
+       TIPS & TRICKS
+       ============================================ -->
+  <div class="section-divider"></div>
+  <section id="tips">
+    <div class="section-header">
+      <h2>Tips &amp; Tricks</h2>
+      <p>Essential knowledge for beginners and advanced players alike.</p>
+    </div>
+    <div class="tips-list" id="tipsList"></div>
+
+    <div class="yt-section">
+      <h3>More Guides from Allbuzha Gaming</h3>
+      <p>In-depth tutorials covering every game system</p>
+      <div class="yt-links">
+        <a class="yt-link" href="https://www.youtube.com/watch?v=y7ou0lEcwIE" target="_blank" rel="noopener">Training Camp Explained</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=drPVTwiZxbk" target="_blank" rel="noopener">Cosmos Hub Guide</a>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=W6iYpkDe3HY" target="_blank" rel="noopener">Haven Island Guide</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="footer-logo">LANDS OF JAIL // GUIDE</div>
+    <p class="footer-disclaimer">Fan-built community resource. Not affiliated with JUST GAME TECHNOLOGY PTE. LTD.</p>
+    <p class="footer-disclaimer">Game data sourced from community research, wikis, and <a href="https://www.youtube.com/@Allbuzha" target="_blank" rel="noopener">Allbuzha Gaming</a>.</p>
+    <div class="footer-links">
+      <a href="https://www.youtube.com/@Allbuzha" target="_blank" rel="noopener">Allbuzha YouTube</a>
+      <a href="https://landsofjail.miraheze.org/wiki/Main_Page" target="_blank" rel="noopener">Community Wiki</a>
+      <a href="https://play.google.com/store/apps/details?id=com.justgame.jails" target="_blank" rel="noopener">Google Play</a>
+      <a href="https://apps.apple.com/us/app/lands-of-jail/id6738469826" target="_blank" rel="noopener">App Store</a>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&#8593;</button>
+
+  <script>
+    /* ================================================
+       DATA LAYER
+       ================================================
+       All game content lives here. To update the site,
+       edit these arrays — no HTML changes needed.
+       ================================================ */
+
+    const HEROES = [
+      // === LEGENDARY ===
+      { name: 'Tormund', rarity: 'legendary', tier: 'S+', heroClass: 'shieldbearer',
+        desc: 'The undisputed king. Can easily carry your team in most situations. Top-tier crowd control through stun abilities. Build him immediately.' },
+      { name: 'Tyronn', rarity: 'legendary', tier: 'S', heroClass: 'shieldbearer',
+        desc: 'Top damage dealer with solid area damage. One of the best heroes in the game — gets even stronger when trained well. Core of every late-game team.' },
+      { name: 'Phoenix', rarity: 'legendary', tier: 'S', heroClass: 'bomber',
+        desc: 'Durable starter hero with strong offensive capability. Hits hard, survives longer than most. Excellent from early game through endgame.' },
+      { name: 'Vivian', rarity: 'legendary', tier: 'A+', heroClass: 'bomber',
+        desc: 'Support/utility focused rather than pure attack. Provides valuable team buffs and control effects. Shines in longer fights.' },
+      { name: 'Inata', rarity: 'legendary', tier: 'B+', heroClass: 'shooter',
+        desc: 'Legendary rarity but underperforms expectations. Health pool is lacking — build ASAP if you plan to use her. Strong damage when protected.' },
+      { name: 'Devilian', rarity: 'legendary', tier: 'B+', heroClass: 'support',
+        desc: 'Training speed buff utility hero. Not a combat powerhouse, but the training speed bonus is valuable for long-term progression.' },
+      // === SEASON 4 LEGENDARY ===
+      { name: 'Zoltan', rarity: 'legendary', tier: 'NEW', heroClass: 'season4',
+        desc: 'Season 4 hero — recently released. Community is still evaluating optimal builds and team placement. Check back for updated rankings.' },
+      { name: 'Ryuici', rarity: 'legendary', tier: 'NEW', heroClass: 'season4',
+        desc: 'Season 4 hero — recently released. Early reports suggest strong potential. Full breakdown available in Allbuzha\'s Season 4 video.' },
+      { name: 'Drake', rarity: 'legendary', tier: 'NEW', heroClass: 'season4',
+        desc: 'Season 4 hero — recently released. Performance data still being collected by the community.' },
+      { name: 'Koschevoi', rarity: 'legendary', tier: 'NEW', heroClass: 'season4',
+        desc: 'Season 4 hero — recently released. Unique skill set under evaluation. Stay tuned for tier placement updates.' },
+      // === EPIC / SR ===
+      { name: 'Lofili', rarity: 'epic', tier: 'A', heroClass: 'shooter',
+        desc: 'Arguably one of the best epic heroes. Strong damage output and reliable performance across all game modes.' },
+      { name: 'Gimes', rarity: 'epic', tier: 'A', heroClass: 'bomber',
+        desc: 'Potent skills that remain effective even in late-game content. A solid investment for any roster.' },
+      { name: 'Lunarl', rarity: 'epic', tier: 'A', heroClass: 'shooter',
+        desc: 'Consistent damage dealer with good scaling. Reliable pick for mid-to-late game content.' },
+      { name: 'Gerd', rarity: 'epic', tier: 'A', heroClass: 'shieldbearer',
+        desc: 'Tank class damage absorption specialist. Excellent at soaking hits and protecting your backline.' },
+      { name: 'Sumo Tyrant', rarity: 'epic', tier: 'B+', heroClass: 'shieldbearer',
+        desc: 'Weakened by power creep but still viable in early-game. Replace with higher-tier tanks as you progress.' },
+      { name: 'Ekko', rarity: 'epic', tier: 'B+', heroClass: 'shooter',
+        desc: 'Solid shooter with decent damage. Good placeholder while building toward legendary heroes.' },
+      { name: 'Platos', rarity: 'epic', tier: 'B+', heroClass: 'bomber',
+        desc: 'AoE damage dealer with crowd control utility. Useful in multi-target scenarios.' },
+      { name: 'Patrick', rarity: 'epic', tier: 'A', heroClass: 'shieldbearer',
+        desc: 'Core early-game tank. Used in virtually every beginner formation. Remains useful in late-game as a frontline anchor.' },
+      { name: 'Jasser', rarity: 'epic', tier: 'A', heroClass: 'shooter',
+        desc: 'Key DPS hero from early through late game. Appears in most recommended team compositions.' },
+      { name: 'Jessie', rarity: 'epic', tier: 'B+', heroClass: 'shooter',
+        desc: 'Reliable damage dealer. Especially effective in boss battle formations paired with healers.' },
+      { name: 'Barry', rarity: 'epic', tier: 'B+', heroClass: 'shieldbearer',
+        desc: 'PvP-focused tank. Strong in Arena compositions. Good alternative to Patrick in competitive play.' },
+      { name: 'Minyeon & Taehun', rarity: 'epic', tier: 'B', heroClass: 'bomber',
+        desc: 'Paired unit with unique dual mechanics. Niche usage but fun to play.' },
+      { name: 'Flora', rarity: 'epic', tier: 'B', heroClass: 'support',
+        desc: 'Support hero useful in early-game formations. Provides healing and utility. Replaced by stronger options later.' },
+      { name: 'Mia', rarity: 'epic', tier: 'B', heroClass: 'support',
+        desc: 'Strong early-game healer but falls off in late-game. Essential for boss battles when paired with DPS carries.' },
+      // === RARE / R ===
+      { name: 'Aiksen', rarity: 'rare', tier: 'C', heroClass: 'support',
+        desc: 'Early-stage support only. Skills revolve around gathering and support. Replace as soon as better options are available.' },
+      { name: 'Pasino', rarity: 'rare', tier: 'C', heroClass: 'shooter',
+        desc: 'Early-game utility shooter. Functional but quickly outclassed. Use only until you recruit SR/Epic heroes.' },
+      { name: 'Durga', rarity: 'rare', tier: 'D', heroClass: 'shieldbearer',
+        desc: 'Stay away from Durga. Poor stats, poor scaling, poor skills. Not worth any investment.' },
+      { name: 'Harton', rarity: 'rare', tier: 'D', heroClass: 'bomber',
+        desc: 'Stay away from Harton. Among the weakest heroes. Do not invest resources here.' },
+    ];
+
+    const EVENTS = [
+      // === RECURRING ===
+      { name: 'Power Sprint', category: 'recurring', duration: '2 Days', frequency: 'Recurring',
+        desc: 'The most efficient power-building event. Earn points through construction, research, and troop training. Each power point = 1 event point. Queue tasks continuously and avoid idle periods.',
+        rewards: ['Diamonds', 'Speed-ups', 'Resource Packs', 'Milestone Chests'],
+        tips: '4 milestone rewards. Accumulate speedups beforehand. Prioritize smaller, completable tasks first for fast points.' },
+      { name: 'Treasure Dice', category: 'recurring', duration: '~2 Months', frequency: 'Every ~2 Months',
+        desc: 'The biggest recurring event. Roll dice to earn chips, hit milestones, and redeem at the Treasure Counter. Combines daily activities with a dice mini-game.',
+        rewards: ['Chips', 'Fate Coins', 'Equipment Parts', 'Gems', 'Chests'],
+        tips: 'Milestones at 40, 80, 160, 400, 800, 2000 rolls. Hit 6000 fate for bonus chests every 750 points. Focus Treasure Counter on rare gear first.' },
+      { name: 'Gold Hunter', category: 'recurring', duration: 'Limited', frequency: 'Recurring',
+        desc: 'Resource gathering event where you hunt for gold across the map. Strategy-based — positioning and timing matter more than raw power.',
+        rewards: ['Gold', 'Resources', 'Speed-ups', 'Event Currency'],
+        tips: 'Allbuzha has a dedicated Gold Hunter strategy guide. Consistency and resource management are key.' },
+      { name: 'Prestige Warden', category: 'recurring', duration: '7 Days', frequency: 'Recurring',
+        desc: 'Week-long event with daily task sets. Complete each day\'s objectives to earn points toward reward tiers. Rewards scale with consistency.',
+        rewards: ['Diamonds', 'Hero Shards', 'Equipment', 'Tier Rewards'],
+        tips: 'Don\'t miss any days — the cumulative rewards are significant. Plan your daily tasks around event objectives.' },
+      { name: 'Prime Time', category: 'recurring', duration: '2 Days', frequency: 'Recurring',
+        desc: 'Short point-based event. Complete various tasks to earn points and unlock rewards. Good for focused grinding sessions.',
+        rewards: ['Diamonds', 'Speed-ups', 'Resources'],
+        tips: 'Short duration means intense activity. Save resources to maximize points during the 2-day window.' },
+      { name: 'Hero Quests', category: 'recurring', duration: 'Daily', frequency: 'Daily',
+        desc: 'Daily challenges that yield gear, currency, and hero experience. The bread and butter of daily progression. Never skip these.',
+        rewards: ['Hero EXP', 'Gear', 'Currency', 'Materials'],
+        tips: 'Complete all daily hero quests before reset. These compound over time and are essential for hero development.' },
+      // === PVP / ALLIANCE ===
+      { name: 'Crystal Clash', category: 'pvp', duration: 'Scheduled', frequency: 'Alliance Event',
+        desc: 'Alliance PvP event with real-time strategy elements. Teams compete to control crystal nodes. Hits on occupied buildings scatter Crystal Shards that must be collected.',
+        rewards: ['Alliance Points', 'Diamonds', 'Exclusive Gear', 'Ranking Rewards'],
+        tips: 'Use high-durability tanks to soak damage. Place DPS units behind defenders. Time ultimates to disrupt enemy combos. Protect your crystal core.' },
+      { name: 'Supreme Honor', category: 'pvp', duration: '5-Day Prep + Event', frequency: 'Cross-Server',
+        desc: 'Major cross-server alliance competition. 5-day preparation phase with daily requirements, followed by the main event. Features ranking systems for competitive rewards.',
+        rewards: ['Top-Tier Gear', 'Exclusive Titles', 'Alliance Chests', 'Ranking Rewards'],
+        tips: 'Coordinate with your alliance during prep phase. Alliance Phase Reward Chests benefit all members. Supreme Commander role is crucial.' },
+      // === SEASONAL ===
+      { name: 'Holiday Events', category: 'seasonal', duration: 'Varies', frequency: 'Seasonal',
+        desc: 'Special events during major holidays. Past events include Xmas Snowman Dress-Up with surprise rewards and New Year Sweet Escape with sweet cake collection.',
+        rewards: ['Limited Items', 'Exclusive Cosmetics', 'Diamonds', 'Special Currency'],
+        tips: 'These are time-limited — participate fully while they\'re active. Often have unique rewards not available elsewhere.' },
+      { name: 'Season Banners', category: 'seasonal', duration: 'Season Duration', frequency: 'Per Season',
+        desc: 'Season-specific hero recruitment banners. SSR/S3 heroes rotate through seasonal banners. Each season introduces new legendary heroes to the roster.',
+        rewards: ['New Heroes', 'Hero Shards', 'Season Currency'],
+        tips: 'Save recruitment resources for season banners if you want the newest heroes. Season 4 brought Zoltan, Ryuici, Drake, and Koschevoi.' },
+    ];
+
+    const FORMATIONS = [
+      { name: 'Early Game', subtitle: 'Best starter lineup for new players',
+        slots: [
+          { hero: 'Patrick', role: 'Tank', type: 'tank', position: 'front' },
+          { hero: 'Mia', role: 'Healer', type: 'support', position: 'mid' },
+          { hero: 'Jasser', role: 'DPS', type: 'dps', position: 'mid' },
+          { hero: 'Jessie', role: 'DPS', type: 'dps', position: 'back' },
+          { hero: 'Flora / Tormund', role: 'Flex', type: 'flex', position: 'back' },
+        ],
+        notes: 'Patrick anchors the front while Mia keeps the team alive. Jasser and Jessie provide consistent damage. Swap Flora for Tormund when you recruit him for a massive upgrade.'
+      },
+      { name: 'Late Game', subtitle: 'Optimized for endgame content',
+        slots: [
+          { hero: 'Tyronn', role: 'Tank/DPS', type: 'tank', position: 'front' },
+          { hero: 'Phoenix', role: 'Bruiser', type: 'dps', position: 'mid' },
+          { hero: 'Inata', role: 'DPS', type: 'dps', position: 'mid' },
+          { hero: 'Patrick', role: 'Off-Tank', type: 'tank', position: 'back' },
+          { hero: 'Jasser', role: 'DPS', type: 'dps', position: 'back' },
+        ],
+        notes: 'Tyronn leads as the primary tank with massive damage output. Phoenix and Inata provide sustained DPS. Patrick adds a second layer of tankiness. Pure damage composition.'
+      },
+      { name: 'Boss Battles', subtitle: 'Maximum single-target damage',
+        slots: [
+          { hero: 'Tyronn', role: 'Tank', type: 'tank', position: 'front' },
+          { hero: 'Phoenix', role: 'DPS', type: 'dps', position: 'mid' },
+          { hero: 'Inata', role: 'DPS', type: 'dps', position: 'mid' },
+          { hero: 'Jessie', role: 'DPS', type: 'dps', position: 'back' },
+          { hero: 'Mia', role: 'Healer', type: 'support', position: 'back' },
+        ],
+        notes: 'Mia is essential here for sustain during long boss fights. Stack your best DPS behind Tyronn. Focus all damage on the boss while Mia keeps everyone alive.'
+      },
+      { name: 'PvP / Arena', subtitle: 'Competitive player-vs-player',
+        slots: [
+          { hero: 'Tyronn', role: 'Tank', type: 'tank', position: 'front' },
+          { hero: 'Phoenix', role: 'Bruiser', type: 'dps', position: 'mid' },
+          { hero: 'Inata', role: 'DPS', type: 'dps', position: 'mid' },
+          { hero: 'Jasser', role: 'DPS', type: 'dps', position: 'back' },
+          { hero: 'Barry / Patrick', role: 'Flex Tank', type: 'flex', position: 'back' },
+        ],
+        notes: 'Barry excels in PvP due to his defensive kit. Swap Patrick in if you need more reliable tankiness. Time your ultimates to disrupt enemy combos for maximum impact.'
+      },
+    ];
+
+    const SHOPS = [
+      { name: 'Monthly Pass', type: 'Subscription', recommended: true,
+        desc: 'Best long-term ROI in the game. Provides daily rewards, speed-ups, and premium currency over 30 days. The single best purchase for any spender.',
+        value: 'Best ROI', valueNote: 'per dollar over 30 days' },
+      { name: 'Daily Special', type: 'Daily Pack', recommended: true,
+        desc: 'Approximately 3,700% value compared to standard shop prices. Targeted hero advancement and resources. Resets daily — buy consistently.',
+        value: '~3,700%', valueNote: 'value vs base prices' },
+      { name: 'Treasure Counter', type: 'Event Shop', recommended: true,
+        desc: 'Chip redemption shop during Treasure Dice events. Offers high-value equipment parts, chests, and rare materials. Prioritize rare gear over common items.',
+        value: 'High', valueNote: 'event-exclusive items' },
+      { name: 'Stake Packs', type: 'Tiered Packs', recommended: false,
+        desc: 'Range from free (Beginner) through paid (Legendary) tiers. Each tier offers progressively better rewards. Limited to one purchase per day for Basic and above.',
+        value: 'Varies', valueNote: 'by tier level' },
+      { name: 'Gold Cuffs Store', type: 'Premium Currency', recommended: false,
+        desc: 'Premium in-game currency shop. Gold Cuffs accelerate inmate training and reduce timers. Can be earned through events and daily top-ups — save for high-impact uses.',
+        value: 'Premium', valueNote: 'spend strategically' },
+      { name: 'Random Speed-Up Packs', type: 'Resource Pack', recommended: false, avoid: true,
+        desc: 'Generic resource packs with randomized contents. Poor value compared to targeted packs and event rewards. Save your currency for known-quantity purchases.',
+        value: 'Low', valueNote: 'avoid if possible' },
+    ];
+
+    const TIPS = [
+      { icon: '&#128274;', title: 'Beginner Essentials', items: [
+        '<strong>Use your 3-day shield wisely</strong> — build and research aggressively without fear of attacks during this window.',
+        '<strong>Buy the second builder permanently</strong> — the single best early investment. Two active build queues doubles your progression speed.',
+        '<strong>Save diamonds for events</strong> — never spend diamonds on speeding up construction. Wait for time-limited event offers with multiplied value.',
+        '<strong>Join an active alliance immediately</strong> — alliance rewards, raid access, and community advice accelerate everything.',
+        '<strong>Complete all daily tasks</strong> — the compounding effect of consistent daily play is massive. Never let a day slip.',
+      ]},
+      { icon: '&#9889;', title: 'Power Progression', items: [
+        '<strong>Never leave queues idle</strong> — always have construction, research, and training running simultaneously.',
+        '<strong>Power Sprint is king</strong> — accumulate speedups between events, then burn them all during Power Sprint for maximum point efficiency.',
+        '<strong>Balance your upgrades</strong> — don\'t neglect economic/production research branches. They compound your resource generation over time.',
+        '<strong>Upgrade existing troops before recruiting new ones</strong> — higher tier upgrades often give better resource efficiency than raw numbers.',
+      ]},
+      { icon: '&#127981;', title: 'Training Camp', items: [
+        '<strong>4 training styles:</strong> Strength (attack), Speed (agility/dodge), Elite (special abilities), Endurance (health/survivability).',
+        '<strong>Prioritize Endurance + Attack</strong> — this combination gives the best overall combat effectiveness.',
+        '<strong>Camp levels 1-5:</strong> Limited slots, basic stat boosts. <strong>6-10:</strong> More capacity, new styles. <strong>11-15:</strong> Faster training, skill paths. <strong>15+:</strong> Legendary skill upgrades.',
+        '<strong>Train in patterns</strong> — unlock combo skills by training diverse troop compositions simultaneously.',
+        '<strong>Use Gold Cuffs strategically</strong> — reduce training time on high-priority elite units, not common inmates.',
+      ]},
+      { icon: '&#127758;', title: 'Haven Island', items: [
+        '<strong>Claim your island early</strong> — clear the mist to expand your territory and unlock new building plots.',
+        '<strong>Build toward a 5-star manor</strong> — mansion buffs provide permanent stat bonuses that affect all gameplay.',
+        '<strong>Workers matter</strong> — assign workers efficiently to maximize prosperity and resource generation.',
+        '<strong>F2P friendly</strong> — Haven Island is accessible to free-to-play players. Focus on steady progression over rushing.',
+      ]},
+      { icon: '&#128752;', title: 'Cosmos Hub', items: [
+        '<strong>Satellite Overclock</strong> — the primary mechanic of Cosmos Hub. Overclocking satellites provides powerful passive effects.',
+        '<strong>Prioritize high-impact upgrades</strong> — not all satellite effects are equal. Focus on the ones that boost your primary game mode.',
+        '<strong>Check Allbuzha\'s Cosmos Hub guide</strong> — detailed breakdown of optimal upgrade paths and effect priorities.',
+      ]},
+      { icon: '&#128176;', title: 'Resource Management', items: [
+        '<strong>Maximize production buildings</strong> — upgrade resource generators and research that boost their yields.',
+        '<strong>Vending machine = income</strong> — your main source of in-game money for interior upgrades. Keep it upgraded.',
+        '<strong>Spend surplus before overflow</strong> — resources that exceed storage capacity are wasted. Invest proactively.',
+        '<strong>Coordinate purchases with events</strong> — buying packs during events like Treasure Dice gives compounded value.',
+      ]},
+    ];
+
+
+    /* ================================================
+       RENDER LAYER
+       ================================================ */
+
+    function renderHeroes(filters = {}) {
+      const grid = document.getElementById('heroGrid');
+      grid.innerHTML = '';
+
+      HEROES.forEach((hero, i) => {
+        const matchClass = !filters.heroClass || filters.heroClass === 'all' || hero.heroClass === filters.heroClass;
+        const matchRarity = !filters.rarity || filters.rarity === 'all' || hero.rarity === filters.rarity;
+        const matchTier = !filters.tier || filters.tier === 'all' || hero.tier === filters.tier;
+
+        const card = document.createElement('div');
+        card.className = `hero-card${(!matchClass || !matchRarity || !matchTier) ? ' hidden' : ''}`;
+        card.dataset.rarity = hero.rarity;
+        card.dataset.class = hero.heroClass;
+        card.dataset.tier = hero.tier;
+        card.style.animationDelay = `${(i % 12) * 0.03}s`;
+        if (matchClass && matchRarity && matchTier) card.classList.add('animate-in');
+
+        const tierClass = hero.tier === 'S+' ? 's-plus' : hero.tier === 'S' ? 's' :
+          hero.tier === 'A+' ? 'a-plus' : hero.tier === 'A' ? 'a' :
+          hero.tier === 'B+' ? 'b-plus' : hero.tier === 'B' ? 'b' :
+          hero.tier === 'C' ? 'c' : hero.tier === 'D' ? 'd' : 'new-hero';
+
+        const classIcon = hero.heroClass === 'shieldbearer' ? '&#128737;' :
+          hero.heroClass === 'bomber' ? '&#128163;' :
+          hero.heroClass === 'shooter' ? '&#127919;' :
+          hero.heroClass === 'support' ? '&#128154;' :
+          hero.heroClass === 'season4' ? '&#11088;' : '';
+
+        const className = hero.heroClass === 'season4' ? 'Season 4' :
+          hero.heroClass.charAt(0).toUpperCase() + hero.heroClass.slice(1);
+
+        card.innerHTML = `
+          <div class="hero-card-top">
+            <div class="hero-name">${hero.name}</div>
+            <div class="hero-tier ${tierClass}">${hero.tier}</div>
+          </div>
+          <div class="hero-meta">
+            <span class="hero-badge badge-rarity-${hero.rarity}">${hero.rarity.charAt(0).toUpperCase() + hero.rarity.slice(1)}</span>
+            <span class="hero-badge badge-class"><span class="icon">${classIcon}</span> ${className}</span>
+          </div>
+          <div class="hero-desc">${hero.desc}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderHeroFilters() {
+      const bar = document.getElementById('heroFilters');
+      const classes = ['all', 'shieldbearer', 'bomber', 'shooter', 'support', 'season4'];
+      const rarities = ['all', 'legendary', 'epic', 'rare'];
+      const tiers = ['all', 'S+', 'S', 'A+', 'A', 'B+', 'B', 'C', 'D', 'NEW'];
+
+      const classLabels = { all: 'All', shieldbearer: 'Shieldbearers', bomber: 'Bombers', shooter: 'Shooters', support: 'Support', season4: 'Season 4' };
+      const rarityLabels = { all: 'All', legendary: 'Legendary', epic: 'Epic', rare: 'Rare' };
+
+      bar.innerHTML = `
+        <div class="filter-group">
+          <span class="label">Class</span>
+          ${classes.map(c => `<button class="filter-btn${c === 'all' ? ' active' : ''}" data-filter="class" data-value="${c}">${classLabels[c]}</button>`).join('')}
+        </div>
+        <div class="filter-group">
+          <span class="label">Rarity</span>
+          ${rarities.map(r => `<button class="filter-btn${r === 'all' ? ' active' : ''}" data-filter="rarity" data-value="${r}" data-rarity="${r}">${rarityLabels[r]}</button>`).join('')}
+        </div>
+        <div class="filter-group">
+          <span class="label">Tier</span>
+          ${tiers.map(t => `<button class="filter-btn${t === 'all' ? ' active' : ''}" data-filter="tier" data-value="${t}">${t === 'all' ? 'All' : t}</button>`).join('')}
+        </div>
+      `;
+    }
+
+    function renderEvents(activeTab = 'all') {
+      const grid = document.getElementById('eventGrid');
+      grid.innerHTML = '';
+
+      EVENTS.forEach((evt, i) => {
+        const visible = activeTab === 'all' || evt.category === activeTab;
+        const card = document.createElement('div');
+        card.className = `event-card${!visible ? ' hidden' : ''}`;
+        card.dataset.category = evt.category;
+        if (visible) {
+          card.classList.add('animate-in');
+          card.style.animationDelay = `${i * 0.05}s`;
+        }
+
+        card.innerHTML = `
+          <div class="event-card-header">
+            <div>
+              <div class="event-frequency">${evt.frequency}</div>
+              <div class="event-name">${evt.name}</div>
+            </div>
+            <span class="event-duration">${evt.duration}</span>
+          </div>
+          <div class="event-desc">${evt.desc}</div>
+          <div class="event-desc" style="color:var(--accent-tertiary);font-size:0.8rem;margin-bottom:10px;">&#9733; ${evt.tips}</div>
+          <div class="event-rewards">
+            ${evt.rewards.map(r => `<span class="reward-tag">${r}</span>`).join('')}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderEventTabs() {
+      const tabs = document.getElementById('eventTabs');
+      const categories = [
+        { key: 'all', label: 'All Events' },
+        { key: 'recurring', label: 'Recurring' },
+        { key: 'pvp', label: 'PvP / Alliance' },
+        { key: 'seasonal', label: 'Seasonal' },
+      ];
+      tabs.innerHTML = categories.map(c =>
+        `<button class="event-tab${c.key === 'all' ? ' active' : ''}" data-category="${c.key}">${c.label}</button>`
+      ).join('');
+    }
+
+    function renderFormations() {
+      const grid = document.getElementById('formationGrid');
+      grid.innerHTML = '';
+
+      FORMATIONS.forEach((f, i) => {
+        const card = document.createElement('div');
+        card.className = 'formation-card animate-in';
+        card.style.animationDelay = `${i * 0.08}s`;
+
+        const frontSlots = f.slots.filter(s => s.position === 'front');
+        const midSlots = f.slots.filter(s => s.position === 'mid');
+        const backSlots = f.slots.filter(s => s.position === 'back');
+
+        function slotHTML(slot) {
+          const typeClass = slot.type === 'tank' ? 'tank' : slot.type === 'dps' ? 'dps' :
+            slot.type === 'support' ? 'support' : 'flex-pick';
+          const wide = (slot.position === 'front' && frontSlots.length === 1) ? ' wide' : '';
+          return `<div class="formation-slot ${typeClass}${wide}">${slot.hero}<span class="role">${slot.role}</span></div>`;
+        }
+
+        card.innerHTML = `
+          <div class="formation-title">${f.name}</div>
+          <div class="formation-subtitle">${f.subtitle}</div>
+          <div class="formation-diagram">
+            <div class="formation-row-label">&#9650; Front Line</div>
+            ${frontSlots.map(slotHTML).join('')}
+            <div class="formation-row-label">&#9644; Mid Line</div>
+            ${midSlots.map(slotHTML).join('')}
+            <div class="formation-row-label">&#9660; Back Line</div>
+            ${backSlots.map(slotHTML).join('')}
+          </div>
+          <div class="formation-notes">${f.notes}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderShops() {
+      const grid = document.getElementById('shopGrid');
+      grid.innerHTML = '';
+
+      SHOPS.forEach((shop, i) => {
+        const card = document.createElement('div');
+        card.className = `shop-card animate-in${shop.recommended ? ' recommended' : ''}${shop.avoid ? ' avoid' : ''}`;
+        card.style.animationDelay = `${i * 0.05}s`;
+
+        card.innerHTML = `
+          <div class="shop-name">${shop.name}</div>
+          <div class="shop-type">${shop.type}</div>
+          <div class="shop-desc">${shop.desc}</div>
+          <div class="shop-value">${shop.value} <span>${shop.valueNote}</span></div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderTips() {
+      const list = document.getElementById('tipsList');
+      list.innerHTML = '';
+
+      TIPS.forEach((tip, i) => {
+        const item = document.createElement('div');
+        item.className = 'tip-item';
+
+        item.innerHTML = `
+          <div class="tip-header" onclick="toggleTip(this)">
+            <div class="tip-icon">${tip.icon}</div>
+            <div class="tip-title">${tip.title}</div>
+            <div class="tip-toggle">&#9662;</div>
+          </div>
+          <div class="tip-content">
+            <div class="tip-body">
+              <ul>${tip.items.map(item => `<li>${item}</li>`).join('')}</ul>
+            </div>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+
+    /* ================================================
+       INTERACTION LAYER
+       ================================================ */
+
+    let currentFilters = { heroClass: 'all', rarity: 'all', tier: 'all' };
+
+    function initFilters() {
+      document.getElementById('heroFilters').addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+
+        const filterType = btn.dataset.filter;
+        const value = btn.dataset.value;
+
+        // Update active state within the filter group
+        btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Map filter types
+        if (filterType === 'class') currentFilters.heroClass = value;
+        if (filterType === 'rarity') currentFilters.rarity = value;
+        if (filterType === 'tier') currentFilters.tier = value;
+
+        renderHeroes(currentFilters);
+      });
+    }
+
+    function initEventTabs() {
+      document.getElementById('eventTabs').addEventListener('click', (e) => {
+        const tab = e.target.closest('.event-tab');
+        if (!tab) return;
+
+        document.querySelectorAll('.event-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderEvents(tab.dataset.category);
+      });
+    }
+
+    function toggleTip(header) {
+      const item = header.parentElement;
+      item.classList.toggle('open');
+    }
+
+    function toggleMobileNav() {
+      document.getElementById('mobileNav').classList.toggle('open');
+    }
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+    }
+
+    // Scroll spy for active nav
+    function initScrollSpy() {
+      const sections = ['heroes', 'events', 'formations', 'shops', 'tips'];
+      const navLinks = document.querySelectorAll('.main-nav a');
+
+      window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach((id, i) => {
+          const section = document.getElementById(id);
+          if (!section) return;
+          const top = section.offsetTop;
+          const bottom = top + section.offsetHeight;
+
+          if (scrollPos >= top && scrollPos < bottom) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            navLinks[i]?.classList.add('active');
+          }
+        });
+
+        // Back to top button
+        const btn = document.getElementById('backToTop');
+        if (window.scrollY > 500) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+      });
+    }
+
+
+    /* ================================================
+       INIT
+       ================================================ */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHeroFilters();
+      renderHeroes();
+      renderEventTabs();
+      renderEvents();
+      renderFormations();
+      renderShops();
+      renderTips();
+      initFilters();
+      initEventTabs();
+      initScrollSpy();
+    });
+  </script>
+</body>
+</html>
