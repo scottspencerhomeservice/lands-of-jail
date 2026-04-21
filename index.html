@@ -376,135 +376,186 @@
     .filter-btn.active[data-rarity="rare"] { background: var(--rarity-rare); color: #001a0a; }
 
     /* ============================================
-       HERO CARDS
+       HERO CARDS — Full Body + Hover Reveal
        ============================================ */
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
     }
     .hero-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      cursor: pointer;
+      aspect-ratio: 2 / 3;
     }
-    .hero-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      z-index: 2;
+    /* Gradient backgrounds by rarity */
+    .hero-card[data-rarity="legendary"] {
+      background: linear-gradient(160deg, #2a1f00 0%, #1a1200 30%, #0d0a04 60%, #1a1000 100%);
+      border: 1px solid rgba(255,215,0,0.15);
     }
-    .hero-card[data-rarity="legendary"]::before { background: linear-gradient(90deg, var(--rarity-legendary), rgba(255,215,0,0.3)); }
-    .hero-card[data-rarity="epic"]::before { background: linear-gradient(90deg, var(--rarity-epic), rgba(168,85,247,0.3)); }
-    .hero-card[data-rarity="rare"]::before { background: linear-gradient(90deg, var(--rarity-rare), rgba(34,197,94,0.3)); }
+    .hero-card[data-rarity="epic"] {
+      background: linear-gradient(160deg, #1f0a30 0%, #150820 30%, #0c0510 60%, #180a28 100%);
+      border: 1px solid rgba(168,85,247,0.15);
+    }
+    .hero-card[data-rarity="rare"] {
+      background: linear-gradient(160deg, #0a1f10 0%, #061208 30%, #040a06 60%, #081a0c 100%);
+      border: 1px solid rgba(34,197,94,0.15);
+    }
     .hero-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border);
+      transform: translateY(-6px) scale(1.02);
     }
-    .hero-card[data-rarity="legendary"]:hover { box-shadow: 0 8px 32px rgba(255,215,0,0.15); }
-    .hero-card[data-rarity="epic"]:hover { box-shadow: 0 8px 32px rgba(168,85,247,0.15); }
-    .hero-card[data-rarity="rare"]:hover { box-shadow: 0 8px 32px rgba(34,197,94,0.15); }
+    .hero-card[data-rarity="legendary"]:hover { box-shadow: 0 12px 40px rgba(255,215,0,0.2), inset 0 0 60px rgba(255,215,0,0.03); border-color: rgba(255,215,0,0.35); }
+    .hero-card[data-rarity="epic"]:hover { box-shadow: 0 12px 40px rgba(168,85,247,0.2), inset 0 0 60px rgba(168,85,247,0.03); border-color: rgba(168,85,247,0.35); }
+    .hero-card[data-rarity="rare"]:hover { box-shadow: 0 12px 40px rgba(34,197,94,0.2), inset 0 0 60px rgba(34,197,94,0.03); border-color: rgba(34,197,94,0.35); }
     .hero-card.hidden { display: none; }
 
-    /* Hero Image */
-    .hero-img-wrap {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      overflow: hidden;
-      background: var(--bg-secondary);
+    /* Full body character image — default view */
+    .hero-full-body {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 10px 60px;
     }
-    .hero-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .hero-full-body img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.5));
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s;
     }
-    .hero-card:hover .hero-img-wrap img {
-      transform: scale(1.06);
+    .hero-card:hover .hero-full-body img {
+      transform: scale(0.85) translateY(-10px);
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3)) brightness(0.6);
     }
-    .hero-img-wrap::after {
-      content: '';
+    /* Placeholder for heroes without images */
+    .hero-full-body .placeholder-initial {
+      font-family: 'Teko', sans-serif;
+      font-size: 6rem;
+      font-weight: 700;
+      opacity: 0.06;
+      transition: transform 0.4s, opacity 0.4s;
+    }
+    .hero-card:hover .hero-full-body .placeholder-initial {
+      transform: scale(0.8);
+      opacity: 0.03;
+    }
+
+    /* Bottom bar — always visible: name + tier */
+    .hero-bottom-bar {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 60px;
-      background: linear-gradient(transparent, var(--bg-card));
-      pointer-events: none;
-    }
-    /* Placeholder for heroes without images */
-    .hero-img-placeholder {
-      width: 100%;
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Teko', sans-serif;
-      font-size: 4rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.08);
-    }
-    .hero-img-placeholder[data-rarity="legendary"] { background: linear-gradient(135deg, #1a1500, #2a2000); color: rgba(255,215,0,0.12); }
-    .hero-img-placeholder[data-rarity="epic"] { background: linear-gradient(135deg, #150020, #200030); color: rgba(168,85,247,0.12); }
-    .hero-img-placeholder[data-rarity="rare"] { background: linear-gradient(135deg, #001a0a, #002a14); color: rgba(34,197,94,0.12); }
-
-    /* Tier badge overlay on image */
-    .hero-tier-overlay {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 3;
-    }
-
-    .hero-card-body {
-      padding: 16px 20px 20px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .hero-card-top {
+      padding: 12px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      align-items: flex-end;
+      z-index: 4;
+      pointer-events: none;
     }
     .hero-name {
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--text-primary);
+      font-size: 1rem;
+      color: #fff;
       line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
     .hero-tier {
       font-family: 'Teko', sans-serif;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       line-height: 1;
-      padding: 3px 12px;
+      padding: 2px 10px;
       border-radius: 6px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      flex-shrink: 0;
     }
-    .hero-tier.s-plus { color: var(--rarity-legendary); border: 1px solid rgba(255,215,0,0.3); }
-    .hero-tier.s { color: #ff9500; border: 1px solid rgba(255,149,0,0.3); }
-    .hero-tier.a-plus, .hero-tier.a { color: var(--accent-tertiary); border: 1px solid rgba(0,212,170,0.3); }
-    .hero-tier.b-plus, .hero-tier.b { color: var(--accent-blue); border: 1px solid rgba(74,158,255,0.3); }
-    .hero-tier.c { color: var(--text-secondary); border: 1px solid rgba(136,136,160,0.3); }
-    .hero-tier.d { color: var(--accent-primary); border: 1px solid rgba(233,69,96,0.3); }
-    .hero-tier.new-hero { color: var(--accent-secondary); border: 1px solid rgba(245,166,35,0.3); font-size: 0.9rem; }
+    .hero-tier.s1 { color: var(--rarity-legendary); border: 1px solid rgba(255,215,0,0.4); text-shadow: 0 0 8px rgba(255,215,0,0.4); }
+    .hero-tier.s2 { color: #ff9500; border: 1px solid rgba(255,149,0,0.4); text-shadow: 0 0 8px rgba(255,149,0,0.3); }
+    .hero-tier.a1 { color: #00ffcc; border: 1px solid rgba(0,255,204,0.3); }
+    .hero-tier.a2 { color: var(--accent-tertiary); border: 1px solid rgba(0,212,170,0.3); }
+    .hero-tier.b1 { color: #66b3ff; border: 1px solid rgba(102,179,255,0.3); }
+    .hero-tier.b2 { color: var(--accent-blue); border: 1px solid rgba(74,158,255,0.3); }
+    .hero-tier.c1 { color: var(--text-secondary); border: 1px solid rgba(136,136,160,0.3); }
+    .hero-tier.d1 { color: var(--accent-primary); border: 1px solid rgba(233,69,96,0.3); }
+    .hero-tier.new-hero { color: var(--accent-secondary); border: 1px solid rgba(245,166,35,0.3); font-size: 1rem; }
 
+    /* Hover overlay — detail panel with portrait + description */
+    .hero-hover-detail {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      overflow-y: auto;
+    }
+    .hero-card:hover .hero-hover-detail {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .hero-hover-detail::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+    .hero-card[data-rarity="legendary"] .hero-hover-detail::before {
+      background: linear-gradient(180deg, rgba(26,18,0,0.92) 0%, rgba(13,10,4,0.96) 100%);
+    }
+    .hero-card[data-rarity="epic"] .hero-hover-detail::before {
+      background: linear-gradient(180deg, rgba(21,8,32,0.92) 0%, rgba(12,5,16,0.96) 100%);
+    }
+    .hero-card[data-rarity="rare"] .hero-hover-detail::before {
+      background: linear-gradient(180deg, rgba(10,31,16,0.92) 0%, rgba(4,10,6,0.96) 100%);
+    }
+
+    .hero-hover-portrait {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    .hero-hover-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .hero-hover-portrait .placeholder-thumb {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Teko', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero-hover-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
     .hero-meta {
       display: flex;
       gap: 6px;
@@ -513,28 +564,28 @@
     }
     .hero-badge {
       font-family: 'Chakra Petch', sans-serif;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 3px 9px;
+      padding: 3px 8px;
       border-radius: 20px;
       border: 1px solid;
     }
-    .badge-rarity-legendary { color: var(--rarity-legendary); border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
-    .badge-rarity-epic { color: var(--rarity-epic); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.05); }
-    .badge-rarity-rare { color: var(--rarity-rare); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.05); }
+    .badge-rarity-legendary { color: var(--rarity-legendary); border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.08); }
+    .badge-rarity-epic { color: var(--rarity-epic); border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.08); }
+    .badge-rarity-rare { color: var(--rarity-rare); border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.08); }
     .badge-class {
       color: var(--text-secondary);
       border-color: var(--border-subtle);
-      background: rgba(255,255,255,0.02);
+      background: rgba(255,255,255,0.03);
     }
     .badge-class .icon { margin-right: 3px; }
 
     .hero-desc {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--text-secondary);
-      line-height: 1.5;
+      line-height: 1.55;
       flex-grow: 1;
     }
 
@@ -1049,7 +1100,7 @@
       .filter-bar { flex-direction: column; }
       .event-tabs { width: 100%; }
       .event-tab { flex: 1; text-align: center; font-size: 0.7rem; padding: 10px 12px; }
-      .hero-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      .hero-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .event-grid { grid-template-columns: 1fr; }
       .formation-grid { grid-template-columns: 1fr; }
       .shop-grid { grid-template-columns: 1fr; }
@@ -1237,61 +1288,61 @@
        ================================================ */
 
     const HEROES = [
-      // ========== TIER S+ ==========
-      { name: 'Tormund', rarity: 'legendary', tier: 'S+', heroClass: 'shieldbearer', image: 'images/heroes/tormund.png',
+      // ========== TIER S1 ==========
+      { name: 'Tormund', rarity: 'legendary', tier: 'S1', heroClass: 'shieldbearer', image: 'images/heroes/tormund.png',
         desc: 'The undisputed king. Can easily carry your team in most situations. Top-tier crowd control through stun abilities. Build him immediately.' },
-      // ========== TIER S ==========
-      { name: 'Tyronn', rarity: 'legendary', tier: 'S', heroClass: 'shieldbearer', image: 'images/heroes/tyronn.png',
+      // ========== TIER S2 ==========
+      { name: 'Tyronn', rarity: 'legendary', tier: 'S2', heroClass: 'shieldbearer', image: 'images/heroes/tyronn.png',
         desc: 'Top damage dealer with solid area damage. One of the best heroes in the game — gets even stronger when trained well. Core of every late-game team.' },
-      { name: 'Phoenix', rarity: 'legendary', tier: 'S', heroClass: 'shieldbearer', image: 'images/heroes/phoenix.png',
+      { name: 'Phoenix', rarity: 'legendary', tier: 'S2', heroClass: 'shieldbearer', image: 'images/heroes/phoenix.png',
         desc: 'SSR Shieldbearer. Frontline tank who boosts team ATK and triggers periodic AoE attacks. Durable, hits hard, survives longer than most. Excellent from early game through endgame.' },
-      // ========== TIER A+ ==========
-      { name: 'Vivian', rarity: 'legendary', tier: 'A+', heroClass: 'bomber', image: 'images/heroes/vivian.png',
+      // ========== TIER A1 ==========
+      { name: 'Vivian', rarity: 'legendary', tier: 'A1', heroClass: 'bomber', image: 'images/heroes/vivian.png',
         desc: 'Support/utility focused rather than pure attack. Provides valuable team buffs and control effects. Shines in longer fights.' },
-      // ========== TIER A ==========
-      { name: 'Lofili', rarity: 'epic', tier: 'A', heroClass: 'shooter', image: 'images/heroes/lofili.png',
+      // ========== TIER A2 ==========
+      { name: 'Lofili', rarity: 'epic', tier: 'A2', heroClass: 'shooter', image: 'images/heroes/lofili.png',
         desc: 'Arguably one of the best epic heroes. Strong damage output and reliable performance across all game modes.' },
-      { name: 'Gimes', rarity: 'epic', tier: 'A', heroClass: 'bomber', image: 'images/heroes/gimes.png',
+      { name: 'Gimes', rarity: 'epic', tier: 'A2', heroClass: 'bomber', image: 'images/heroes/gimes.png',
         desc: 'Potent skills that remain effective even in late-game content. A solid investment for any roster.' },
-      { name: 'Lunarl', rarity: 'epic', tier: 'A', heroClass: 'shooter', image: 'images/heroes/lunarl.png',
+      { name: 'Lunarl', rarity: 'epic', tier: 'A2', heroClass: 'shooter', image: 'images/heroes/lunarl.png',
         desc: 'Consistent damage dealer with good scaling. Reliable pick for mid-to-late game content.' },
-      { name: 'Gerd', rarity: 'epic', tier: 'A', heroClass: 'shieldbearer', image: 'images/heroes/gerd.png',
+      { name: 'Gerd', rarity: 'epic', tier: 'A2', heroClass: 'shieldbearer', image: 'images/heroes/gerd.png',
         desc: 'Tank class damage absorption specialist. Excellent at soaking hits and protecting your backline.' },
-      { name: 'Patrick', rarity: 'epic', tier: 'A', heroClass: 'shieldbearer', image: null,
+      { name: 'Patrick', rarity: 'epic', tier: 'A2', heroClass: 'shieldbearer', image: null,
         desc: 'Core early-game tank. Used in virtually every beginner formation. Remains useful in late-game as a frontline anchor.' },
-      { name: 'Jasser', rarity: 'epic', tier: 'A', heroClass: 'shooter', image: null,
+      { name: 'Jasser', rarity: 'epic', tier: 'A2', heroClass: 'shooter', image: null,
         desc: 'Key DPS hero from early through late game. Appears in most recommended team compositions.' },
-      // ========== TIER B+ ==========
-      { name: 'Inata', rarity: 'legendary', tier: 'B+', heroClass: 'shooter', image: 'images/heroes/inata.png',
+      // ========== TIER B1 ==========
+      { name: 'Inata', rarity: 'legendary', tier: 'B1', heroClass: 'shooter', image: 'images/heroes/inata.png',
         desc: 'Legendary rarity but underperforms expectations. Health pool is lacking — build ASAP if you plan to use her. Strong damage when protected.' },
-      { name: 'Devilian', rarity: 'legendary', tier: 'B+', heroClass: 'support', image: 'images/heroes/devilian.png',
+      { name: 'Devilian', rarity: 'legendary', tier: 'B1', heroClass: 'support', image: 'images/heroes/devilian.png',
         desc: 'Training speed buff utility hero. Not a combat powerhouse, but the training speed bonus is valuable for long-term progression.' },
-      { name: 'Iwado', rarity: 'epic', tier: 'B+', heroClass: 'shieldbearer', image: 'images/heroes/iwado.png',
+      { name: 'Iwado', rarity: 'epic', tier: 'B1', heroClass: 'shieldbearer', image: 'images/heroes/iwado.png',
         desc: 'Formerly known as Sumo Tyrant. Weakened by power creep but still viable in early-game. Replace with higher-tier tanks as you progress.' },
-      { name: 'Ekko', rarity: 'epic', tier: 'B+', heroClass: 'shooter', image: 'images/heroes/ekko.png',
+      { name: 'Ekko', rarity: 'epic', tier: 'B1', heroClass: 'shooter', image: 'images/heroes/ekko.png',
         desc: 'Solid shooter with decent damage. Good placeholder while building toward legendary heroes.' },
-      { name: 'Platos', rarity: 'epic', tier: 'B+', heroClass: 'bomber', image: 'images/heroes/platos.png',
+      { name: 'Platos', rarity: 'epic', tier: 'B1', heroClass: 'bomber', image: 'images/heroes/platos.png',
         desc: 'AoE damage dealer with crowd control utility. Useful in multi-target scenarios.' },
-      { name: 'Jessie', rarity: 'epic', tier: 'B+', heroClass: 'shooter', image: null,
+      { name: 'Jessie', rarity: 'epic', tier: 'B1', heroClass: 'shooter', image: null,
         desc: 'Reliable damage dealer. Especially effective in boss battle formations paired with healers.' },
-      { name: 'Barry', rarity: 'epic', tier: 'B+', heroClass: 'shieldbearer', image: null,
+      { name: 'Barry', rarity: 'epic', tier: 'B1', heroClass: 'shieldbearer', image: null,
         desc: 'PvP-focused tank. Strong in Arena compositions. Good alternative to Patrick in competitive play.' },
-      // ========== TIER B ==========
-      { name: 'Minyeon & Taehun', rarity: 'epic', tier: 'B', heroClass: 'bomber', image: 'images/heroes/minyeon.png',
+      // ========== TIER B2 ==========
+      { name: 'Minyeon & Taehun', rarity: 'epic', tier: 'B2', heroClass: 'bomber', image: 'images/heroes/minyeon.png',
         desc: 'Paired unit with unique dual mechanics. Niche usage but fun to play.' },
-      { name: 'Flora', rarity: 'epic', tier: 'B', heroClass: 'support', image: 'images/heroes/flora.png',
+      { name: 'Flora', rarity: 'epic', tier: 'B2', heroClass: 'support', image: 'images/heroes/flora.png',
         desc: 'Support hero useful in early-game formations. Provides healing and utility. Replaced by stronger options later.' },
-      { name: 'Mia', rarity: 'epic', tier: 'B', heroClass: 'support', image: 'images/heroes/mia.png',
+      { name: 'Mia', rarity: 'epic', tier: 'B2', heroClass: 'support', image: 'images/heroes/mia.png',
         desc: 'Strong early-game healer but falls off in late-game. Essential for boss battles when paired with DPS carries.' },
-      // ========== TIER C ==========
-      { name: 'Aiksen', rarity: 'rare', tier: 'C', heroClass: 'support', image: 'images/heroes/aiksen.png',
+      // ========== TIER C1 ==========
+      { name: 'Aiksen', rarity: 'rare', tier: 'C1', heroClass: 'support', image: 'images/heroes/aiksen.png',
         desc: 'Early-stage support only. Skills revolve around gathering and support. Replace as soon as better options are available.' },
-      { name: 'Pasino', rarity: 'rare', tier: 'C', heroClass: 'shooter', image: 'images/heroes/pasino.png',
+      { name: 'Pasino', rarity: 'rare', tier: 'C1', heroClass: 'shooter', image: 'images/heroes/pasino.png',
         desc: 'Early-game utility shooter. Functional but quickly outclassed. Use only until you recruit SR/Epic heroes.' },
-      // ========== TIER D ==========
-      { name: 'Durga', rarity: 'rare', tier: 'D', heroClass: 'shieldbearer', image: 'images/heroes/durga.png',
+      // ========== TIER D1 ==========
+      { name: 'Durga', rarity: 'rare', tier: 'D1', heroClass: 'shieldbearer', image: 'images/heroes/durga.png',
         desc: 'Stay away from Durga. Poor stats, poor scaling, poor skills. Not worth any investment.' },
-      { name: 'Harton', rarity: 'rare', tier: 'D', heroClass: 'bomber', image: 'images/heroes/harton.png',
+      { name: 'Harton', rarity: 'rare', tier: 'D1', heroClass: 'bomber', image: 'images/heroes/harton.png',
         desc: 'Stay away from Harton. Among the weakest heroes. Do not invest resources here.' },
       // ========== SEASON 4 (NEW — Unranked) ==========
       { name: 'Zoltan', rarity: 'legendary', tier: 'NEW', heroClass: 'season4', image: 'images/heroes/zoltan.png',
@@ -1476,10 +1527,10 @@
         card.style.animationDelay = `${(i % 12) * 0.03}s`;
         if (matchClass && matchRarity && matchTier) card.classList.add('animate-in');
 
-        const tierClass = hero.tier === 'S+' ? 's-plus' : hero.tier === 'S' ? 's' :
-          hero.tier === 'A+' ? 'a-plus' : hero.tier === 'A' ? 'a' :
-          hero.tier === 'B+' ? 'b-plus' : hero.tier === 'B' ? 'b' :
-          hero.tier === 'C' ? 'c' : hero.tier === 'D' ? 'd' : 'new-hero';
+        const tierClass = hero.tier === 'S1' ? 's1' : hero.tier === 'S2' ? 's2' :
+          hero.tier === 'A1' ? 'a1' : hero.tier === 'A2' ? 'a2' :
+          hero.tier === 'B1' ? 'b1' : hero.tier === 'B2' ? 'b2' :
+          hero.tier === 'C1' ? 'c1' : hero.tier === 'D1' ? 'd1' : 'new-hero';
 
         const classIcon = hero.heroClass === 'shieldbearer' ? '&#128737;' :
           hero.heroClass === 'bomber' ? '&#128163;' :
@@ -1490,19 +1541,29 @@
         const className = hero.heroClass === 'season4' ? 'Season 4' :
           hero.heroClass.charAt(0).toUpperCase() + hero.heroClass.slice(1);
 
-        const imageHTML = hero.image
-          ? `<div class="hero-img-wrap"><img src="${hero.image}" alt="${hero.name}" loading="lazy"><div class="hero-tier-overlay"><div class="hero-tier ${tierClass}">${hero.tier}</div></div></div>`
-          : `<div class="hero-img-wrap"><div class="hero-img-placeholder" data-rarity="${hero.rarity}">${hero.name.charAt(0)}</div><div class="hero-tier-overlay"><div class="hero-tier ${tierClass}">${hero.tier}</div></div></div>`;
+        // Full body image (default view)
+        const fullBodyHTML = hero.image
+          ? `<div class="hero-full-body"><img src="${hero.image}" alt="${hero.name}" loading="lazy"></div>`
+          : `<div class="hero-full-body"><div class="placeholder-initial">${hero.name.charAt(0)}</div></div>`;
+
+        // Portrait thumbnail for hover (same image, different display)
+        const portraitHTML = hero.image
+          ? `<div class="hero-hover-portrait"><img src="${hero.image}" alt="${hero.name}"></div>`
+          : `<div class="hero-hover-portrait"><div class="placeholder-thumb">${hero.name.charAt(0)}</div></div>`;
 
         card.innerHTML = `
-          ${imageHTML}
-          <div class="hero-card-body">
-            <div class="hero-card-top">
-              <div class="hero-name">${hero.name}</div>
-            </div>
+          ${fullBodyHTML}
+          <div class="hero-bottom-bar">
+            <div class="hero-name">${hero.name}</div>
+            <div class="hero-tier ${tierClass}">${hero.tier}</div>
+          </div>
+          <div class="hero-hover-detail">
+            ${portraitHTML}
+            <div class="hero-hover-name">${hero.name}</div>
             <div class="hero-meta">
               <span class="hero-badge badge-rarity-${hero.rarity}">${hero.rarity.charAt(0).toUpperCase() + hero.rarity.slice(1)}</span>
               <span class="hero-badge badge-class"><span class="icon">${classIcon}</span> ${className}</span>
+              <span class="hero-badge" style="color:var(--text-primary);border-color:var(--border-subtle)">${hero.tier}</span>
             </div>
             <div class="hero-desc">${hero.desc}</div>
           </div>
@@ -1515,7 +1576,7 @@
       const bar = document.getElementById('heroFilters');
       const classes = ['all', 'shieldbearer', 'bomber', 'shooter', 'support', 'season4'];
       const rarities = ['all', 'legendary', 'epic', 'rare'];
-      const tiers = ['all', 'S+', 'S', 'A+', 'A', 'B+', 'B', 'C', 'D', 'NEW'];
+      const tiers = ['all', 'S1', 'S2', 'A1', 'A2', 'B1', 'B2', 'C1', 'D1', 'NEW'];
 
       const classLabels = { all: 'All', shieldbearer: 'Shieldbearers', bomber: 'Bombers', shooter: 'Shooters', support: 'Support', season4: 'Season 4' };
       const rarityLabels = { all: 'All', legendary: 'Legendary', epic: 'Epic', rare: 'Rare' };
